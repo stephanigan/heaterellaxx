@@ -229,35 +229,61 @@ st.markdown("""
         fill: #9C1545 !important;
     }
 
-    /* Buttons */
-    .stButton > button {
+    /* Buttons & Download Controls - High Contrast Guaranteed */
+    .stButton > button,
+    .stButton > button * {
         background-color: #C2185B !important;
         color: #FFFFFF !important;
-        border-radius: 8px !important;
-        border: none !important;
-        font-weight: 700 !important;
+        border-radius: 10px !important;
+        border: 1px solid #E8B4B8 !important;
+        font-weight: 800 !important;
         padding: 10px 20px !important;
-        box-shadow: 0 2px 6px rgba(194, 24, 91, 0.3) !important;
+        box-shadow: 0 2px 8px rgba(194, 24, 91, 0.3) !important;
         transition: all 0.2s ease !important;
     }
 
-    .stButton > button:hover {
+    .stButton > button:hover,
+    .stButton > button:hover * {
         background-color: #9C1545 !important;
+        color: #FFFFFF !important;
         transform: translateY(-1px);
-        box-shadow: 0 4px 10px rgba(194, 24, 91, 0.4) !important;
+        box-shadow: 0 4px 12px rgba(194, 24, 91, 0.4) !important;
     }
 
     [data-testid="stDownloadButton"] button {
-        background-color: #1E1E1E !important;
-        color: #F4C2C2 !important;
-        border: 1px solid #DDA7A5 !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        padding: 8px 16px !important;
+        background-color: #9C1545 !important;
+        color: #FFFFFF !important;
+        border: 2px solid #E8B4B8 !important;
+        border-radius: 10px !important;
+        font-weight: 800 !important;
+        font-size: 0.95rem !important;
+        padding: 12px 20px !important;
+        box-shadow: 0 4px 12px rgba(156, 21, 69, 0.25) !important;
+        transition: all 0.2s ease !important;
+        width: 100% !important;
+    }
+
+    [data-testid="stDownloadButton"] button *,
+    [data-testid="stDownloadButton"] button p,
+    [data-testid="stDownloadButton"] button span,
+    [data-testid="stDownloadButton"] button div {
+        color: #FFFFFF !important;
+        font-weight: 800 !important;
+        font-size: 0.95rem !important;
     }
 
     [data-testid="stDownloadButton"] button:hover {
-        background-color: #9C1545 !important;
+        background-color: #C2185B !important;
+        border-color: #FFFFFF !important;
+        color: #FFFFFF !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(194, 24, 91, 0.4) !important;
+    }
+
+    [data-testid="stDownloadButton"] button:hover *,
+    [data-testid="stDownloadButton"] button:hover p,
+    [data-testid="stDownloadButton"] button:hover span,
+    [data-testid="stDownloadButton"] button:hover div {
         color: #FFFFFF !important;
     }
 </style>
