@@ -1,3 +1,36 @@
+"""
+========================================================================================
+HEATELLAXX - HEAT EXCHANGER THERMAL ANALYSIS & DESIGN SUITE
+========================================================================================
+AI DEVELOPMENT & ENGINEERING DOCUMENTATION LOG
+
+1. AI TOOLS USED:
+   - Google AI Studio Build (Antigravity Agent + Gemini 3.7 Pro / Gemini 3.7 Flash)
+   - Anthropic Claude 3.5 Sonnet (for mathematical verification & LaTeX derivations)
+   - GitHub Copilot / Cursor IDE (for Python & TypeScript code completion)
+
+2. KEY PROMPTS GIVEN:
+   - Prompt 1: "Fix the LaTeX rendering bug where equations in headers with dollar signs
+     were failing to parse, and organize the math cards into an academic governing equations
+     hierarchy with full step-by-step calculus derivations and KaTeX display blocks."
+   - Prompt 2: "Implement rigorous thermodynamic validation including First Law energy balance,
+     Log Mean Temperature Difference (LMTD), epsilon-NTU effectiveness, Second Law entropy
+     generation rate (S_gen), exergy destruction rate (Ex_dest), and physical feasibility checks
+     (pinch temperature violation and temperature crosses)."
+   - Prompt 3: "Work on the color contrast across the entire UI using a high-contrast
+     rose-gold and charcoal theme, ensuring all download buttons, sidebar inputs, alerts,
+     and math display cards meet strict WCAG AA contrast standards with legible typography."
+
+3. MOST IMPORTANT MANUAL FIX / VERIFICATION:
+   - Thermodynamic Singularity & Pinch Boundary Handling:
+     Manually verified and corrected the LMTD singularity edge-case when deltaT1 equals
+     deltaT2 (where Delta T_lm = Delta T_1 = Delta T_2 rather than division by zero in
+     ln(Delta T_1 / Delta T_2)), along with enforcing strict Second Law entropy generation
+     (S_gen >= 0) and cold-side outlet temperature caps (T_c,out <= T_h,in) to prevent
+     non-physical temperature inversions in parallel and counterflow regimes.
+========================================================================================
+"""
+
 import streamlit as st
 import pandas as pd
 import numpy as np
