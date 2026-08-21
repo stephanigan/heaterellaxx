@@ -4,7 +4,7 @@ import numpy as np
 import plotly.graph_objects as go
 
 # ------------------------------------------------------------------------------
-# 1. PAGE CONFIGURATION & CUSTOM CSS ("GIRLY + HIGH-TECH ENGINEERING" THEME)
+# 1. PAGE CONFIGURATION & HIGH-CONTRAST "ROSE-GOLD & CHARCOAL" THEME
 # ------------------------------------------------------------------------------
 st.set_page_config(
     page_title="heaterellaxx | Heat Analyzer",
@@ -13,87 +13,94 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS styling for Girly + High-Tech aesthetic
+# Enhanced High-Contrast CSS styling
 st.markdown("""
 <style>
-    /* Theme Color Variables */
-    :root {
-        --primary-accent: #C2185B;
-        --secondary-rose: #DDA7A5;
-        --blush-pink: #F4C2C2;
-        --bg-light: #FDF2F4;
-        --card-bg: #FFFFFF;
-        --charcoal: #2C2C2C;
-    }
-    
+    /* Global Container & Typography */
     .stApp {
         background-color: #FDF2F4;
+        color: #1E1E1E !important;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     
-    /* Sidebar Customization */
+    /* Ensure all text inside main area is deep high-contrast charcoal */
+    .stMarkdown, .stMarkdown p, .stMarkdown span, .stMarkdown li, .stMarkdown div {
+        color: #1E1E1E !important;
+        line-height: 1.6;
+    }
+
+    /* Sidebar Customization - High contrast dark with vibrant rose labels */
     [data-testid="stSidebar"] {
-        background-color: #2C2C2C !important;
+        background-color: #1E1E1E !important;
         border-right: 2px solid #DDA7A5;
     }
     
-    [data-testid="stSidebar"] * {
-        color: #F8E8EE !important;
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3, 
+    [data-testid="stSidebar"] h4 {
+        color: #F4C2C2 !important;
+        font-weight: 700;
+    }
+
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] span {
+        color: #FFFFFF !important;
+        font-weight: 600;
     }
 
     [data-testid="stSidebar"] .stSelectbox label, 
     [data-testid="stSidebar"] .stSlider label,
     [data-testid="stSidebar"] .stNumberInput label {
         color: #F4C2C2 !important;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 0.95rem;
     }
 
     /* Metric Display Cards */
     .metric-card {
         background: #FFFFFF;
         border-radius: 12px;
-        padding: 20px;
-        border: 1px solid #DDA7A5;
-        box-shadow: 0 4px 12px rgba(194, 24, 91, 0.08);
+        padding: 22px 18px;
+        border: 2px solid #E8B4B8;
+        box-shadow: 0 4px 14px rgba(194, 24, 91, 0.08);
         text-align: center;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .metric-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(194, 24, 91, 0.15);
+        margin-bottom: 12px;
     }
 
     .metric-label {
         font-size: 0.85rem;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
-        color: #C2185B;
-        letter-spacing: 0.5px;
-        margin-bottom: 6px;
+        color: #9C1545;
+        letter-spacing: 0.6px;
+        margin-bottom: 8px;
     }
 
     .metric-value {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #2C2C2C;
+        font-size: 2.1rem;
+        font-weight: 900;
+        color: #1A1A1A;
+        line-height: 1.1;
     }
 
     .metric-unit {
-        font-size: 0.9rem;
-        color: #6B7280;
-        font-weight: 500;
+        font-size: 0.95rem;
+        color: #4A5568;
+        font-weight: 600;
+        margin-top: 6px;
     }
 
     /* Main Header Styling */
     .main-header {
-        background: linear-gradient(135deg, #2C2C2C 0%, #3D1C28 100%);
+        background: linear-gradient(135deg, #1E1E1E 0%, #3D1424 100%);
         border: 2px solid #DDA7A5;
-        border-radius: 16px;
-        padding: 24px 32px;
-        color: white;
-        margin-bottom: 24px;
-        box-shadow: 0 8px 20px rgba(44, 44, 44, 0.15);
+        border-radius: 14px;
+        padding: 24px 30px;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 24px rgba(30, 30, 30, 0.15);
     }
 
     .main-title {
@@ -105,45 +112,133 @@ st.markdown("""
     }
 
     .sub-title {
-        color: #DDA7A5;
+        color: #E8B4B8;
         font-size: 1.15rem;
-        font-weight: 600;
+        font-weight: 700;
         margin-top: 4px;
     }
 
     .tagline {
-        color: #E5E7EB;
+        color: #F3F4F6;
         font-size: 0.95rem;
         font-style: italic;
-        margin-top: 8px;
+        margin-top: 6px;
     }
 
     /* Instruction Banner */
     .instruction-box {
-        background-color: #FFF5F7;
-        border-left: 5px solid #C2185B;
+        background-color: #FFFFFF;
+        border-left: 6px solid #C2185B;
         border-top: 1px solid #DDA7A5;
         border-right: 1px solid #DDA7A5;
         border-bottom: 1px solid #DDA7A5;
         border-radius: 12px;
-        padding: 16px 20px;
+        padding: 18px 22px;
         margin-bottom: 24px;
-        color: #2C2C2C;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
-    /* Streamlit Containers & Expanders */
-    .stExpander {
+    .instruction-box h4 {
+        margin-top: 0;
+        color: #9C1545 !important;
+        font-weight: 800;
+        font-size: 1.1rem;
+    }
+
+    .instruction-box p {
+        color: #2D3748 !important;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    /* Expanders & Content Containers */
+    [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
-        border: 1px solid #DDA7A5 !important;
+        border: 2px solid #E8B4B8 !important;
         border-radius: 12px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        margin-bottom: 20px;
     }
 
+    [data-testid="stExpander"] summary {
+        background-color: #FFF0F3 !important;
+        border-radius: 10px !important;
+        color: #9C1545 !important;
+        font-weight: 800 !important;
+        font-size: 1.05rem !important;
+        padding: 12px 16px !important;
+    }
+
+    [data-testid="stExpander"] summary svg {
+        fill: #9C1545 !important;
+    }
+
+    /* Action Buttons */
     .stButton > button {
         background-color: #C2185B !important;
-        color: white !important;
+        color: #FFFFFF !important;
         border-radius: 8px !important;
         border: none !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        padding: 10px 20px !important;
+        box-shadow: 0 2px 6px rgba(194, 24, 91, 0.3) !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .stButton > button:hover {
+        background-color: #9C1545 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(194, 24, 91, 0.4) !important;
+    }
+
+    /* Download Buttons */
+    [data-testid="stDownloadButton"] button {
+        background-color: #1E1E1E !important;
+        color: #F4C2C2 !important;
+        border: 1px solid #DDA7A5 !important;
+        border-radius: 8px !important;
+        font-weight: 700 !important;
+        padding: 8px 16px !important;
+    }
+
+    [data-testid="stDownloadButton"] button:hover {
+        background-color: #9C1545 !important;
+        color: #FFFFFF !important;
+    }
+
+    /* LaTeX Equations Container Card */
+    .math-card {
+        background-color: #FFFFFF;
+        border: 2px solid #E8B4B8;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(194, 24, 91, 0.06);
+    }
+    
+    .math-card h5 {
+        color: #9C1545 !important;
+        font-weight: 800;
+        font-size: 1.1rem;
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+
+    /* Chart Container Frame */
+    .chart-frame {
+        background-color: #FFFFFF;
+        border: 2px solid #E8B4B8;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 14px rgba(194, 24, 91, 0.06);
+        margin-bottom: 16px;
+    }
+    
+    .chart-title {
+        color: #1E1E1E;
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin-bottom: 8px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -161,12 +256,12 @@ st.markdown("""
 
 st.markdown("""
 <div class="instruction-box">
-    <h4 style="margin-top:0; color:#C2185B;">✨ How to Use heaterellaxx</h4>
-    <p style="margin-bottom:0;">
-        1. Adjust fluid temperatures, mass flow rates, and heat transfer coefficients in the <strong>⚙️ System Configuration</strong> sidebar.<br>
-        2. Toggle between <strong>Counterflow</strong> and <strong>Parallel Flow</strong> configurations to analyze thermal performance.<br>
-        3. Inspect <strong>LMTD</strong>, <strong>Heat Duty (Q)</strong>, <strong>Required Surface Area (A)</strong>, and <strong>Thermal Effectiveness (ε)</strong>.<br>
-        4. Explore temperature distribution profiles and compare benchmark performance metrics in the interactive charts below.
+    <h4>✨ How to Use heaterellaxx</h4>
+    <p>
+        1. Set fluid inlet/outlet temperatures, flow rates, and heat transfer coefficient in the dark <strong>⚙️ System Configuration</strong> sidebar on the left.<br>
+        2. Toggle between <strong>Counterflow</strong> and <strong>Parallel Flow</strong> arrangements to analyze performance.<br>
+        3. Review real-time <strong>Key Performance Metrics</strong> (Q, LMTD, Area, ε, NTU) and interactive temperature distribution curves.<br>
+        4. Inspect exact <strong>LaTeX Mathematical Equations</strong> and automated <strong>AI Thermal Diagnostics</strong> below.
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -215,7 +310,7 @@ m_dot_h = st.sidebar.slider(
 C_p_h = st.sidebar.number_input(
     "Hot Fluid Specific Heat (C_p_h) [kJ/kg·K]",
     min_value=0.5, max_value=10.0, value=2.1, step=0.1,
-    help="Default ~2.1 kJ/kg·K for thermal oil or ~4.18 for water"
+    help="Default ~2.1 kJ/kg·K for thermal oil or ~4.184 for water"
 )
 
 m_dot_c = st.sidebar.slider(
@@ -249,14 +344,14 @@ material_preset = st.sidebar.selectbox(
 )
 
 material_props = {
-    "Copper (High Conductivity k=385 W/m·K)": {"k": 385, "desc": "Excellent thermal conductivity, ideal for compact high-efficiency units."},
-    "Aluminum Alloy (Conductivity k=205 W/m·K)": {"k": 205, "desc": "Lightweight with strong thermal conductivity."},
-    "Stainless Steel (Moderate k=16 W/m·K)": {"k": 16, "desc": "High corrosion resistance, suitable for harsh chemical environments."},
-    "Titanium Alloy (Specialized k=22 W/m·K)": {"k": 22, "desc": "Extreme resistance to marine seawater and aggressive fluids."}
+    "Copper (High Conductivity k=385 W/m·K)": {"k": 385, "desc": "High thermal conductivity, ideal for compact high-efficiency units."},
+    "Aluminum Alloy (Conductivity k=205 W/m·K)": {"k": 205, "desc": "Lightweight with strong thermal conductance."},
+    "Stainless Steel (Moderate k=16 W/m·K)": {"k": 16, "desc": "High corrosion resistance, suitable for harsh chemical processes."},
+    "Titanium Alloy (Specialized k=22 W/m·K)": {"k": 22, "desc": "Extreme resistance to marine seawater and aggressive chemicals."}
 }
 
 # ------------------------------------------------------------------------------
-# 4. ENGINEERING LOGIC & ERROR HANDLING
+# 4. ENGINEERING LOGIC & ERROR VALIDATION
 # ------------------------------------------------------------------------------
 valid = True
 error_msg = ""
@@ -273,11 +368,11 @@ elif T_c_in >= T_h_in:
 
 if not valid:
     st.error(error_msg)
-    st.info("💡 **Troubleshooting Guidance:** Adjust the temperature sliders/inputs in the sidebar so that T_h_in > T_h_out and T_c_in < T_h_in.")
+    st.info("💡 **Troubleshooting Guidance:** Adjust the temperature values in the sidebar so that $T_{h,in} > T_{h,out}$ and $T_{c,in} < T_{h,in}$.")
     st.stop()
 
 # Thermal Calculations
-# Heat Duty from Hot Side: Q = m_dot_h * C_p_h * (T_h_in - T_h_out) [kW]
+# Heat Duty: Q = m_dot_h * C_p_h * (T_h_in - T_h_out) [kW]
 C_h = m_dot_h * C_p_h  # kW/K
 Q_kW = C_h * (T_h_in - T_h_out)  # kW
 
@@ -287,10 +382,10 @@ T_c_out = T_c_in + (Q_kW / C_c)
 
 # Check 3: Outlet temperature of cold fluid cannot exceed thermodynamic limit
 if flow_config == "Counterflow" and T_c_out > T_h_in:
-    st.warning(f"⚠️ Thermodynamic Boundary Exceeded: Calculated Cold Outlet Temp ({T_c_out:.1f}°C) exceeds Hot Inlet Temp ({T_h_in}°C). Reduce hot flow rate or increase cold flow rate.")
+    st.warning(f"⚠️ Thermodynamic Boundary Exceeded: Calculated Cold Outlet Temp ({T_c_out:.1f}°C) exceeds Hot Inlet Temp ({T_h_in}°C). Increase cold fluid flow rate or reduce hot flow rate.")
     st.stop()
 elif flow_config == "Parallel Flow" and T_c_out > T_h_out:
-    st.warning(f"⚠️ Parallel Flow Temperature Cross: In Parallel Flow, Cold Outlet Temp ({T_c_out:.1f}°C) cannot exceed Hot Outlet Temp ({T_h_out}°C). Switch to Counterflow or adjust mass flow rates.")
+    st.warning(f"⚠️ Parallel Flow Temperature Cross: In Parallel Flow, Cold Outlet Temp ({T_c_out:.1f}°C) cannot exceed Hot Outlet Temp ({T_h_out}°C). Switch to Counterflow or adjust flow rates.")
     st.stop()
 
 # Temperature Differences
@@ -303,10 +398,10 @@ else: # Parallel Flow
 
 # Check for temperature cross / invalid delta T
 if delta_T1 <= 0 or delta_T2 <= 0:
-    st.error(f"⛔ Temperature Pinch/Cross Error: ΔT1 = {delta_T1:.2f}°C, ΔT2 = {delta_T2:.2f}°C. Heat exchanger cannot operate under these temperature bounds. Try switching to Counterflow or adjusting flow rates.")
+    st.error(f"⛔ Temperature Cross Error: ΔT1 = {delta_T1:.2f}°C, ΔT2 = {delta_T2:.2f}°C. Heat exchanger cannot operate under these bounds. Try switching to Counterflow or increasing cold water flow.")
     st.stop()
 
-# LMTD Calculation with edge case handling (division by zero when delta_T1 == delta_T2)
+# LMTD Calculation with edge case handling
 if abs(delta_T1 - delta_T2) < 1e-5:
     LMTD = delta_T1
 else:
@@ -325,7 +420,7 @@ effectiveness = (Q_kW / Q_max * 100.0) if Q_max > 0 else 0.0
 NTU = (U * Area) / (C_min * 1000.0) if C_min > 0 else 0.0
 
 # ------------------------------------------------------------------------------
-# 5. RESULTS DISPLAY & SUMMARY TABLE
+# 5. RESULTS DISPLAY: KPI METRIC CARDS
 # ------------------------------------------------------------------------------
 st.markdown("### 📊 Key Performance Metrics")
 
@@ -367,18 +462,245 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
+# ------------------------------------------------------------------------------
+# 6. HIGH-CONTRAST PLOTLY CHARTS (CRISP & READABLE)
+# ------------------------------------------------------------------------------
+st.markdown("### 📈 Thermal Visualizations")
 
-# Detailed Engineering Table
-st.markdown("#### 📋 Detailed Thermal Summary")
+chart_col1, chart_col2 = st.columns(2)
+
+# High-contrast color tokens
+color_hot = "#C2185B"        # Bold Rose Magenta
+color_cold = "#1D4ED8"       # Deep Royal Blue
+color_cf = "#C2185B"         # Counterflow Accent
+color_pf = "#E0839B"         # Parallel Flow Accent
+text_dark = "#1E1E1E"        # Crisp Dark Charcoal Text
+grid_color = "#E5E7EB"       # Subtle Clean Grid Lines
+
+with chart_col1:
+    st.markdown("""<div class="chart-title">1. Fluid Temperature Distribution Profile</div>""", unsafe_allow_html=True)
+    
+    x = np.linspace(0, 1, 100)
+    T_h_profile = T_h_in - (T_h_in - T_h_out) * x
+    
+    if flow_config == "Counterflow":
+        T_c_profile = T_c_out - (T_c_out - T_c_in) * x
+    else: # Parallel Flow
+        T_c_profile = T_c_in + (T_c_out - T_c_in) * x
+        
+    fig_temp = go.Figure()
+    
+    fig_temp.add_trace(go.Scatter(
+        x=x, y=T_h_profile,
+        mode='lines',
+        name=f'Hot Fluid (In: {T_h_in}°C → Out: {T_h_out}°C)',
+        line=dict(color=color_hot, width=4)
+    ))
+    
+    fig_temp.add_trace(go.Scatter(
+        x=x, y=T_c_profile,
+        mode='lines',
+        name=f'Cold Fluid (In: {T_c_in}°C → Out: {T_c_out:.1f}°C)',
+        line=dict(color=color_cold, width=4, dash='dash' if flow_config == 'Counterflow' else 'solid')
+    ))
+    
+    fig_temp.update_layout(
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFF8F9",
+        font=dict(family="Inter, sans-serif", color=text_dark, size=12),
+        margin=dict(l=55, r=25, t=30, b=45),
+        height=380,
+        hovermode="x unified",
+        xaxis=dict(
+            title=dict(text="Normalized Exchanger Length (0 = Hot Inlet, 1 = Hot Outlet)", font=dict(color=text_dark, size=12, family="Inter, sans-serif")),
+            tickfont=dict(color=text_dark, size=11),
+            showgrid=True,
+            gridcolor=grid_color,
+            gridwidth=1,
+            linecolor=text_dark,
+            linewidth=1.5
+        ),
+        yaxis=dict(
+            title=dict(text="Temperature (°C)", font=dict(color=text_dark, size=12, family="Inter, sans-serif")),
+            tickfont=dict(color=text_dark, size=11),
+            showgrid=True,
+            gridcolor=grid_color,
+            gridwidth=1,
+            linecolor=text_dark,
+            linewidth=1.5
+        ),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+            font=dict(color=text_dark, size=11, family="Inter, sans-serif"),
+            bgcolor="rgba(255, 255, 255, 0.9)",
+            bordercolor="#E8B4B8",
+            borderwidth=1
+        )
+    )
+    
+    st.plotly_chart(fig_temp, use_container_width=True)
+
+with chart_col2:
+    st.markdown("""<div class="chart-title">2. Flow Benchmark: Counterflow vs Parallel Flow</div>""", unsafe_allow_html=True)
+    
+    # Calculate Counterflow
+    cf_dT1 = T_h_in - T_c_out
+    cf_dT2 = T_h_out - T_c_in
+    cf_lmtd = (cf_dT1 - cf_dT2) / np.log(cf_dT1 / cf_dT2) if abs(cf_dT1 - cf_dT2) > 1e-5 else cf_dT1
+    cf_area = Q_watts / (U * cf_lmtd) if cf_lmtd > 0 else 0
+    
+    # Calculate Parallel
+    pf_dT1 = T_h_in - T_c_in
+    pf_dT2 = T_h_out - T_c_out
+    pf_valid = pf_dT1 > 0 and pf_dT2 > 0 and T_c_out <= T_h_out
+    
+    if pf_valid:
+        pf_lmtd = (pf_dT1 - pf_dT2) / np.log(pf_dT1 / pf_dT2) if abs(pf_dT1 - pf_dT2) > 1e-5 else pf_dT1
+        pf_area = Q_watts / (U * pf_lmtd) if pf_lmtd > 0 else 0
+    else:
+        pf_lmtd = 0
+        pf_area = 0
+
+    categories = ['LMTD (°C)', 'Surface Area (m²)']
+    
+    fig_bench = go.Figure(data=[
+        go.Bar(
+            name='Counterflow',
+            x=categories,
+            y=[cf_lmtd, cf_area],
+            marker=dict(color=color_cf, line=dict(color="#1E1E1E", width=1)),
+            text=[f"{cf_lmtd:.1f} °C", f"{cf_area:.2f} m²"],
+            textposition='outside',
+            textfont=dict(color=text_dark, size=12, family="Inter, sans-serif")
+        ),
+        go.Bar(
+            name='Parallel Flow',
+            x=categories,
+            y=[pf_lmtd, pf_area] if pf_valid else [0, 0],
+            marker=dict(color=color_pf, line=dict(color="#1E1E1E", width=1)),
+            text=[f"{pf_lmtd:.1f} °C" if pf_valid else "N/A", f"{pf_area:.2f} m²" if pf_valid else "N/A (Cross)"],
+            textposition='outside',
+            textfont=dict(color=text_dark, size=12, family="Inter, sans-serif")
+        )
+    ])
+    
+    fig_bench.update_layout(
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFF8F9",
+        font=dict(family="Inter, sans-serif", color=text_dark, size=12),
+        margin=dict(l=55, r=25, t=30, b=45),
+        height=380,
+        barmode='group',
+        xaxis=dict(
+            tickfont=dict(color=text_dark, size=12, family="Inter, sans-serif"),
+            showgrid=False,
+            linecolor=text_dark,
+            linewidth=1.5
+        ),
+        yaxis=dict(
+            title=dict(text="Magnitude", font=dict(color=text_dark, size=12, family="Inter, sans-serif")),
+            tickfont=dict(color=text_dark, size=11),
+            showgrid=True,
+            gridcolor=grid_color,
+            gridwidth=1,
+            linecolor=text_dark,
+            linewidth=1.5
+        ),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+            font=dict(color=text_dark, size=11, family="Inter, sans-serif"),
+            bgcolor="rgba(255, 255, 255, 0.9)",
+            bordercolor="#E8B4B8",
+            borderwidth=1
+        )
+    )
+    
+    st.plotly_chart(fig_bench, use_container_width=True)
+
+# ------------------------------------------------------------------------------
+# 7. THERMODYNAMIC GOVERNING EQUATIONS IN LATEX
+# ------------------------------------------------------------------------------
+st.markdown("### 📐 Thermodynamic Governing Equations & Mathematical Proofs")
+
+with st.container():
+    st.markdown("""
+    <div class="math-card">
+        <h5>1. Heat Duty Equations ($Q$)</h5>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.latex(r"""
+    Q = \dot{m}_h \cdot C_{p,h} \cdot (T_{h,\text{in}} - T_{h,\text{out}}) = \dot{m}_c \cdot C_{p,c} \cdot (T_{c,\text{out}} - T_{c,\text{in}}) \quad [\text{kW}]
+    """)
+    
+    st.write(f"**Current Substitution:** $Q = {m_dot_h:.2f} \\times {C_p_h:.2f} \\times ({T_h_in:.1f} - {T_h_out:.1f}) = {Q_kW:.2f}\\text{ kW} = {Q_kW/1000:.3f}\\text{ MW}$")
+    st.write(f"**Calculated Cold Outlet Temp:** $T_{{c,\\text{{out}}}} = {T_c_in:.1f} + \\frac{{{Q_kW:.2f}}}{{{m_dot_c:.2f} \\times {C_p_c:.3f}}} = {T_c_out:.2f}^\\circ\\text{{C}}$")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="math-card">
+        <h5>2. Terminal Temperature Differences ($\Delta T_1$ & $\Delta T_2$) & Log Mean Temp Difference (LMTD)</h5>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if flow_config == "Counterflow":
+        st.latex(r"""
+        \text{Counterflow: } \Delta T_1 = T_{h,\text{in}} - T_{c,\text{out}}, \quad \Delta T_2 = T_{h,\text{out}} - T_{c,\text{in}}
+        """)
+        st.write(f"**Current Values:** $\\Delta T_1 = {T_h_in:.1f} - {T_c_out:.1f} = {delta_T1:.2f}^\\circ\\text{{C}}$, $\\quad \\Delta T_2 = {T_h_out:.1f} - {T_c_in:.1f} = {delta_T2:.2f}^\\circ\\text{{C}}$")
+    else:
+        st.latex(r"""
+        \text{Parallel Flow: } \Delta T_1 = T_{h,\text{in}} - T_{c,\text{in}}, \quad \Delta T_2 = T_{h,\text{out}} - T_{c,\text{out}}
+        """)
+        st.write(f"**Current Values:** $\\Delta T_1 = {T_h_in:.1f} - {T_c_in:.1f} = {delta_T1:.2f}^\\circ\\text{{C}}$, $\\quad \\Delta T_2 = {T_h_out:.1f} - {T_c_out:.1f} = {delta_T2:.2f}^\\circ\\text{{C}}$")
+
+    st.latex(r"""
+    \text{LMTD} = \frac{\Delta T_1 - \Delta T_2}{\ln\left(\frac{\Delta T_1}{\Delta T_2}\right)} \quad [\text{°C}]
+    """)
+    st.write(f"**Current Result:** $\\text{{LMTD}} = \\frac{{{delta_T1:.2f} - {delta_T2:.2f}}}{{\\ln({delta_T1:.2f} / {delta_T2:.2f})}} = {LMTD:.2f}^\\circ\\text{{C}}$")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="math-card">
+        <h5>3. Heat Transfer Surface Area ($A$) & $\epsilon$-NTU Performance</h5>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.latex(r"""
+    A = \frac{Q \times 1000}{U \cdot \text{LMTD}} \quad [\text{m}^2]
+    """)
+    st.write(f"**Calculated Area:** $A = \\frac{{{Q_kW:.2f} \\times 1000}}{{{U} \\times {LMTD:.2f}}} = {Area:.2f}\\text{ m}^2$")
+
+    st.latex(r"""
+    C_{\min} = \min(C_h, C_c) = \min(\dot{m}_h C_{p,h}, \dot{m}_c C_{p,c}), \quad Q_{\max} = C_{\min}(T_{h,\text{in}} - T_{c,\text{in}})
+    """)
+    st.latex(r"""
+    \epsilon = \frac{Q}{Q_{\max}} \times 100\%, \quad \text{NTU} = \frac{U \cdot A}{C_{\min} \times 1000}
+    """)
+    st.write(f"**Effectiveness & Sizing:** $C_{{\\min}} = {C_min:.2f}\\text{ kW/K}$, $\\quad Q_{{\\max}} = {Q_max:.2f}\\text{ kW}$, $\\quad \\epsilon = {effectiveness:.1f}\\%$, $\\quad \\text{{NTU}} = {NTU:.2f}$")
+
+# ------------------------------------------------------------------------------
+# 8. DETAILED ENGINEERING SUMMARY TABLE
+# ------------------------------------------------------------------------------
+st.markdown("### 📋 Detailed Engineering Summary")
 
 summary_data = [
-    {"Parameter": "Flow Configuration", "Value": flow_config, "Unit": "-", "Engineering Assessment": "Optimal flow arrangement selected"},
-    {"Parameter": "Hot Fluid Inlet Temp (T_h_in)", "Value": f"{T_h_in:.1f}", "Unit": "°C", "Engineering Assessment": "Primary thermal energy source"},
+    {"Parameter": "Flow Configuration", "Value": flow_config, "Unit": "-", "Engineering Assessment": "Selected flow arrangement"},
+    {"Parameter": "Hot Fluid Inlet Temp (T_h_in)", "Value": f"{T_h_in:.1f}", "Unit": "°C", "Engineering Assessment": "Primary thermal supply condition"},
     {"Parameter": "Hot Fluid Outlet Temp (T_h_out)", "Value": f"{T_h_out:.1f}", "Unit": "°C", "Engineering Assessment": f"Cooled by {T_h_in - T_h_out:.1f}°C"},
     {"Parameter": "Cold Fluid Inlet Temp (T_c_in)", "Value": f"{T_c_in:.1f}", "Unit": "°C", "Engineering Assessment": "Coolant supply condition"},
     {"Parameter": "Cold Fluid Outlet Temp (T_c_out)", "Value": f"{T_c_out:.1f}", "Unit": "°C", "Engineering Assessment": f"Heated by {T_c_out - T_c_in:.1f}°C"},
-    {"Parameter": "Total Heat Rate (Q)", "Value": f"{Q_kW:.2f}", "Unit": "kW", "Engineering Assessment": "Transferred thermal power"},
+    {"Parameter": "Total Heat Rate (Q)", "Value": f"{Q_kW:.2f}", "Unit": "kW", "Engineering Assessment": "Thermal duty transferred"},
     {"Parameter": "Log Mean Temp Difference (LMTD)", "Value": f"{LMTD:.2f}", "Unit": "°C", "Engineering Assessment": "Effective temperature driving force"},
     {"Parameter": "Overall Heat Transfer Coeff (U)", "Value": f"{U}", "Unit": "W/m²·K", "Engineering Assessment": "Overall thermal conductance"},
     {"Parameter": "Required Heat Surface Area (A)", "Value": f"{Area:.2f}", "Unit": "m²", "Engineering Assessment": "Calculated heat exchanger footprint"},
@@ -391,13 +713,13 @@ summary_data = [
 df_summary = pd.DataFrame(summary_data)
 st.dataframe(df_summary, use_container_width=True, hide_index=True)
 
-# CSV and Report Download Buttons
+# CSV and TXT Pitch Report Downloads
 btn_col1, btn_col2 = st.columns([1, 1])
 
 with btn_col1:
     csv_data = df_summary.to_csv(index=False).encode('utf-8')
     st.download_button(
-        label="📥 Download Summary as CSV",
+        label="📥 Download Thermal Summary (CSV)",
         data=csv_data,
         file_name=f"heaterellaxx_summary_{flow_config.lower().replace(' ', '_')}.csv",
         mime="text/csv"
@@ -437,114 +759,7 @@ with btn_col2:
     )
 
 # ------------------------------------------------------------------------------
-# 6. INTERACTIVE PLOTLY VISUALIZATIONS
-# ------------------------------------------------------------------------------
-st.markdown("### 📈 Thermal Visualizations")
-
-chart_col1, chart_col2 = st.columns(2)
-
-color_hot = "#C2185B"      # Sleek Rose Magenta
-color_cold = "#2563EB"     # Royal Blue / Slate contrast
-color_rose = "#DDA7A5"     # Rose Gold accent
-color_charcoal = "#2C2C2C" # Charcoal Steel
-
-with chart_col1:
-    st.markdown("##### 1. Temperature Profile along Exchanger Length")
-    
-    x = np.linspace(0, 1, 100)
-    T_h_profile = T_h_in - (T_h_in - T_h_out) * x
-    
-    if flow_config == "Counterflow":
-        T_c_profile = T_c_out - (T_c_out - T_c_in) * x
-    else: # Parallel Flow
-        T_c_profile = T_c_in + (T_c_out - T_c_in) * x
-        
-    fig_temp = go.Figure()
-    
-    fig_temp.add_trace(go.Scatter(
-        x=x, y=T_h_profile,
-        mode='lines',
-        name='Hot Fluid (T_h)',
-        line=dict(color=color_hot, width=3.5)
-    ))
-    
-    fig_temp.add_trace(go.Scatter(
-        x=x, y=T_c_profile,
-        mode='lines',
-        name='Cold Fluid (T_c)',
-        line=dict(color=color_cold, width=3.5, dash='dash' if flow_config == 'Counterflow' else 'solid')
-    ))
-    
-    fig_temp.update_layout(
-        title=f"Fluid Temperature Curves ({flow_config})",
-        xaxis_title="Normalized Exchanger Length (0 = Inlet, 1 = Outlet)",
-        yaxis_title="Temperature (°C)",
-        template="plotly_white",
-        font=dict(family="Inter, sans-serif", color=color_charcoal),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="#FFF5F7",
-        hovermode="x unified",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-    )
-    
-    st.plotly_chart(fig_temp, use_container_width=True)
-
-with chart_col2:
-    st.markdown("##### 2. Flow Configuration Benchmark (Counterflow vs Parallel)")
-    
-    # Calculate Counterflow
-    cf_dT1 = T_h_in - T_c_out
-    cf_dT2 = T_h_out - T_c_in
-    cf_lmtd = (cf_dT1 - cf_dT2) / np.log(cf_dT1 / cf_dT2) if abs(cf_dT1 - cf_dT2) > 1e-5 else cf_dT1
-    cf_area = Q_watts / (U * cf_lmtd) if cf_lmtd > 0 else 0
-    
-    # Calculate Parallel
-    pf_dT1 = T_h_in - T_c_in
-    pf_dT2 = T_h_out - T_c_out
-    pf_valid = pf_dT1 > 0 and pf_dT2 > 0 and T_c_out <= T_h_out
-    
-    if pf_valid:
-        pf_lmtd = (pf_dT1 - pf_dT2) / np.log(pf_dT1 / pf_dT2) if abs(pf_dT1 - pf_dT2) > 1e-5 else pf_dT1
-        pf_area = Q_watts / (U * pf_lmtd) if pf_lmtd > 0 else 0
-    else:
-        pf_lmtd = 0
-        pf_area = 0
-
-    categories = ['Log Mean Temp Diff (°C)', 'Required Surface Area (m²)']
-    
-    fig_bench = go.Figure(data=[
-        go.Bar(
-            name='Counterflow',
-            x=categories,
-            y=[cf_lmtd, cf_area],
-            marker_color=color_hot,
-            text=[f"{cf_lmtd:.1f} °C", f"{cf_area:.2f} m²"],
-            textposition='auto'
-        ),
-        go.Bar(
-            name='Parallel Flow',
-            x=categories,
-            y=[pf_lmtd, pf_area] if pf_valid else [0, 0],
-            marker_color=color_rose,
-            text=[f"{pf_lmtd:.1f} °C" if pf_valid else "N/A", f"{pf_area:.2f} m²" if pf_valid else "N/A (Cross)"],
-            textposition='auto'
-        )
-    ])
-    
-    fig_bench.update_layout(
-        title="LMTD & Area Comparison Benchmark",
-        barmode='group',
-        template="plotly_white",
-        font=dict(family="Inter, sans-serif", color=color_charcoal),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="#FFF5F7",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-    )
-    
-    st.plotly_chart(fig_bench, use_container_width=True)
-
-# ------------------------------------------------------------------------------
-# 7. AI ENGINEERING ASSISTANT & DECISION SUPPORT
+# 9. AI ENGINEERING ASSISTANT & DECISION SUPPORT (HIGH CONTRAST)
 # ------------------------------------------------------------------------------
 with st.expander("🤖 AI Engineering Interpretation & Decision Support", expanded=True):
     min_dT = min(delta_T1, delta_T2)
@@ -553,19 +768,31 @@ with st.expander("🤖 AI Engineering Interpretation & Decision Support", expand
     area_savings = f"{((pf_area - cf_area)/pf_area*100):.1f}%" if pf_valid and pf_area > 0 else "N/A"
     
     st.markdown(f"""
-    #### 💡 Automated Thermal Diagnostic Report
-    
-    - **Pinch Temperature Analysis:** The minimum temperature difference ($\Delta T_{{min}}$) in your heat exchanger is **{min_dT:.2f}°C**.
-      {'⚠️ *Warning: Pinch point is below 5°C, requiring large surface area or high fluid velocities to prevent thermal stagnation.*' if min_dT < 5 else '✅ *Pinch point provides healthy temperature driving force across the exchanger length.*'}
-    
-    - **Flow Configuration Efficiency:** 
-      - Current mode: **{flow_config}**.
-      - Counterflow provides **{lmtd_gain}** than Parallel flow for this thermal duty, reducing required surface area by **{area_savings}**.
-    
-    - **Material Selection Insights:**
-      - Selected Material: **{material_preset.split('(')[0].strip()}** ($k = {material_props[material_preset]['k']}$ W/m·K).
-      - {material_props[material_preset]['desc']}
-    
-    - **Engineering Recommendation:**
-      {'Counterflow is strongly recommended for max thermal recovery and minimal footprint.' if flow_config == 'Parallel Flow' else 'Your counterflow arrangement optimizes thermal efficiency and minimizes tube bundle cost.'}
-    """)
+    <div style="color: #1E1E1E; font-size: 1rem; line-height: 1.8;">
+        <h4 style="color: #9C1545; font-weight: 800; margin-top:0;">💡 Automated Thermal Diagnostic Report</h4>
+        
+        <ul style="color: #1E1E1E; padding-left: 20px;">
+            <li><strong>Pinch Temperature Analysis:</strong> The minimum temperature driving difference ($\Delta T_{{min}}$) in your heat exchanger is <strong style="color: #9C1545;">{min_dT:.2f}°C</strong>.<br>
+            {'<span style="color:#C2185B; font-weight:700;">⚠️ Warning: Pinch point is below 5°C, requiring large surface area or high fluid velocities to prevent thermal stagnation.</span>' if min_dT < 5 else '<span style="color:#15803D; font-weight:700;">✅ Healthy temperature driving force maintained across the entire exchanger length.</span>'}
+            </li>
+            <br>
+            <li><strong>Flow Configuration Efficiency:</strong> 
+                <ul style="padding-left: 18px; margin-top: 4px;">
+                    <li>Active configuration: <strong>{flow_config}</strong>.</li>
+                    <li>Counterflow provides <strong>{lmtd_gain}</strong> than Parallel flow for this thermal duty, reducing required surface area by <strong>{area_savings}</strong>.</li>
+                </ul>
+            </li>
+            <br>
+            <li><strong>Material Selection Insights:</strong>
+                <ul style="padding-left: 18px; margin-top: 4px;">
+                    <li>Selected Alloy: <strong>{material_preset.split('(')[0].strip()}</strong> ($k = {material_props[material_preset]['k']}\\text{{ W/m}}\\cdot\\text{{K}}$).</li>
+                    <li><em>{material_props[material_preset]['desc']}</em></li>
+                </ul>
+            </li>
+            <br>
+            <li><strong>Engineering Recommendation:</strong><br>
+            {'<strong style="color:#9C1545;">Counterflow is strongly recommended</strong> for max thermal recovery and minimal equipment footprint.' if flow_config == 'Parallel Flow' else '<strong style="color:#15803D;">Your counterflow arrangement optimizes thermal efficiency</strong> and minimizes tube bundle capital cost.'}
+            </li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
