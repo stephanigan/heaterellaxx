@@ -1,0 +1,6 @@
+{
+  "name": "heaterellaxx",
+  "description": "Heat Exchanger Engineering Engine & Heat Analyzer combining rigorous thermal calculations with a Girly + High-Tech aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
