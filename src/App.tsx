@@ -146,6 +146,7 @@ export default function App() {
               inputs={inputs}
               onChange={handleInputChange}
               onReset={handleReset}
+              onSelectPreset={(preset) => handleInputChange(preset.inputs)}
             />
           </div>
 

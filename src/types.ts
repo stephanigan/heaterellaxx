@@ -37,6 +37,11 @@ export interface ThermalResults {
   QMax: number;
   effectiveness: number;
   NTU: number;
+  // Advanced Second-Law & Rigorous Engineering
+  S_gen_kW_K: number;         // Entropy generation rate kW/K
+  Ex_dest_kW: number;         // Exergy destruction rate (T0 = 298.15K) kW
+  exergyEfficiency: number;   // Exergetic recovery efficiency (%)
+  pinchPointDeltaT: number;   // Minimum local thermal approach delta T (°C)
 }
 
 export interface FlowBenchmark {
@@ -52,4 +57,15 @@ export interface TempProfilePoint {
   lengthPct: string;  // E.g. "50%"
   TH: number;         // Hot fluid temp (°C)
   TC: number;         // Cold fluid temp (°C)
+  deltaT: number;     // Local driving delta T (°C)
+  heatFlux_kW_m2: number; // Local heat flux kW/m²
 }
+
+export interface EngineeringPreset {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  inputs: ThermalInputs;
+}
+

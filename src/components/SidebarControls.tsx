@@ -1,19 +1,21 @@
 import React from 'react';
-import { ThermalInputs, FlowConfig } from '../types';
-import { MATERIAL_PRESETS } from '../utils/thermalEngine';
-import { Sliders, RefreshCw, Thermometer, Droplets, ShieldCheck, Box } from 'lucide-react';
+import { ThermalInputs, FlowConfig, EngineeringPreset } from '../types';
+import { MATERIAL_PRESETS, INDUSTRIAL_PRESETS } from '../utils/thermalEngine';
+import { Sliders, RefreshCw, Thermometer, Droplets, ShieldCheck, Box, BookmarkCheck } from 'lucide-react';
 import { KatexMath } from './KatexMath';
 
 interface SidebarControlsProps {
   inputs: ThermalInputs;
   onChange: (updated: Partial<ThermalInputs>) => void;
   onReset: () => void;
+  onSelectPreset?: (preset: EngineeringPreset) => void;
 }
 
 export const SidebarControls: React.FC<SidebarControlsProps> = ({
   inputs,
   onChange,
-  onReset
+  onReset,
+  onSelectPreset
 }) => {
   return (
     <div className="bg-[#181818] border-2 border-[#E8B4B8]/60 rounded-2xl p-5 md:p-6 text-white shadow-xl space-y-6 sticky top-6">
@@ -34,8 +36,34 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({
         </button>
       </div>
 
-      {/* 1. Flow Configuration */}
+      {/* Preset Scenarios */}
       <div className="space-y-2">
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#F4C2C2] flex items-center gap-1.5">
+          <BookmarkCheck className="w-3.5 h-3.5 text-[#F4C2C2]" />
+          <span>Engineering Benchmark Presets</span>
+        </label>
+        <select
+          onChange={(e) => {
+            const found = INDUSTRIAL_PRESETS.find(p => p.id === e.target.value);
+            if (found && onSelectPreset) {
+              onSelectPreset(found);
+            } else if (found) {
+              onChange(found.inputs);
+            }
+          }}
+          className="w-full bg-[#242424] border border-gray-700 focus:border-[#C2185B] rounded-xl px-3 py-2 text-xs text-white cursor-pointer font-medium"
+          defaultValue="standard"
+        >
+          {INDUSTRIAL_PRESETS.map((preset) => (
+            <option key={preset.id} value={preset.id}>
+              {preset.category}: {preset.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* 1. Flow Configuration */}
+      <div className="space-y-2 pt-2 border-t border-gray-800">
         <label className="block text-xs font-bold uppercase tracking-wider text-[#F4C2C2]">
           Flow Arrangement
         </label>

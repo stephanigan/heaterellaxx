@@ -666,16 +666,12 @@ with chart_col2:
     st.plotly_chart(fig_bench, use_container_width=True)
 
 # ------------------------------------------------------------------------------
-# 7. THERMODYNAMIC GOVERNING EQUATIONS IN LATEX (NO NAME-ERRORS)
+# 7. THERMODYNAMIC GOVERNING EQUATIONS IN LATEX
 # ------------------------------------------------------------------------------
 st.markdown("### 📐 Thermodynamic Governing Equations & Mathematical Proofs")
 
 with st.container():
-    st.markdown("""
-    <div class="math-card">
-        <h5>1. Heat Duty Rate Equations ($Q$)</h5>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("#### 1. Heat Duty Rate Equations ($Q$)")
     
     st.latex(r"""
     Q = \dot{m}_h \cdot C_{p,h} \cdot (T_{h,\text{in}} - T_{h,\text{out}}) = \dot{m}_c \cdot C_{p,c} \cdot (T_{c,\text{out}} - T_{c,\text{in}}) \quad [\text{kW}]
@@ -691,11 +687,7 @@ with st.container():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    st.markdown("""
-    <div class="math-card">
-        <h5>2. Terminal Differences ($\Delta T_1, \Delta T_2$) & Log Mean Temp Difference (LMTD)</h5>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("#### 2. Terminal Differences ($\Delta T_1, \Delta T_2$) & Log Mean Temp Difference (LMTD)")
     
     if flow_config == "Counterflow":
         st.latex(r"""
@@ -721,11 +713,7 @@ with st.container():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="math-card">
-        <h5>3. Required Heat Transfer Area ($A$) & $\epsilon$-NTU Effectiveness</h5>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(r"#### 3. Required Heat Transfer Area ($A$) & $\varepsilon$-NTU Effectiveness")
 
     st.latex(r"""
     A = \frac{Q \times 1000}{U \cdot \text{LMTD}} \quad [\text{m}^2]
@@ -738,10 +726,10 @@ with st.container():
     C_{\min} = \min(\dot{m}_h C_{p,h}, \dot{m}_c C_{p,c}), \quad Q_{\max} = C_{\min}(T_{h,\text{in}} - T_{c,\text{in}})
     """)
     st.latex(r"""
-    \epsilon = \frac{Q}{Q_{\max}} \times 100\%, \quad \text{NTU} = \frac{U \cdot A}{C_{\min} \times 1000}
+    \varepsilon = \frac{Q}{Q_{\max}} \times 100\%, \quad \text{NTU} = \frac{U \cdot A}{C_{\min} \times 1000}
     """)
     st.latex(rf"""
-    C_{{\min}} = {C_min:.2f} \text{{ kW/K}}, \quad Q_{{\max}} = {Q_max:.2f} \text{{ kW}}, \quad \epsilon = {effectiveness:.1f}\%, \quad \text{{NTU}} = {NTU:.2f}
+    C_{{\min}} = {C_min:.2f} \text{{ kW/K}}, \quad Q_{{\max}} = {Q_max:.2f} \text{{ kW}}, \quad \varepsilon = {effectiveness:.1f}\%, \quad \text{{NTU}} = {NTU:.2f}
     """)
 
 # ------------------------------------------------------------------------------
