@@ -6,6 +6,7 @@ import { SidebarControls } from './components/SidebarControls';
 import { KPICards } from './components/KPICards';
 import { SummaryTable } from './components/SummaryTable';
 import { ThermalCharts } from './components/ThermalCharts';
+import { GoverningEquations } from './components/GoverningEquations';
 import { AIEngineeringAssistant } from './components/AIEngineeringAssistant';
 import { ExportModal } from './components/ExportModal';
 import { AlertCircle, FileText, Flame, Sparkles } from 'lucide-react';
@@ -110,10 +111,13 @@ export default function App() {
                 {/* 1. Metric KPI Cards */}
                 <KPICards results={results} />
 
-                {/* 2. Interactive Plotly / Recharts Visualizations */}
+                {/* 2. Interactive Visualizations */}
                 <ThermalCharts inputs={inputs} results={results} />
 
-                {/* 3. Detailed Engineering Summary Data Table */}
+                {/* 3. Thermodynamic Governing Equations */}
+                <GoverningEquations inputs={inputs} results={results} />
+
+                {/* 4. Detailed Engineering Summary Data Table */}
                 <SummaryTable inputs={inputs} results={results} />
 
                 {/* 4. AI Engineering Assistant & Decision Support */}

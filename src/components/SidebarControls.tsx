@@ -60,7 +60,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
         {/* THIn */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <label className="text-[#F4C2C2] font-semibold">Hot Inlet Temp (T_h_in)</label>
+            <label className="text-[#F4C2C2] font-semibold">Hot Inlet Temp (T<sub>h,in</sub>)</label>
             <span className="text-white font-mono font-bold">{inputs.THIn}°C</span>
           </div>
           <input
@@ -77,7 +77,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
         {/* THOut */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <label className="text-[#F4C2C2] font-semibold">Hot Outlet Temp (T_h_out)</label>
+            <label className="text-[#F4C2C2] font-semibold">Hot Outlet Temp (T<sub>h,out</sub>)</label>
             <span className="text-white font-mono font-bold">{inputs.THOut}°C</span>
           </div>
           <input
@@ -94,7 +94,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
         {/* TCIn */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <label className="text-[#F4C2C2] font-semibold">Cold Inlet Temp (T_c_in)</label>
+            <label className="text-[#F4C2C2] font-semibold">Cold Inlet Temp (T<sub>c,in</sub>)</label>
             <span className="text-white font-mono font-bold">{inputs.TCIn}°C</span>
           </div>
           <input
@@ -119,7 +119,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
         {/* MDotH */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <label className="text-[#F4C2C2] font-semibold">Hot Fluid Flow (m_dot_h)</label>
+            <label className="text-[#F4C2C2] font-semibold">Hot Mass Flow Rate (ṁ<sub>h</sub>)</label>
             <span className="text-white font-mono font-bold">{inputs.MDotH} kg/s</span>
           </div>
           <input
@@ -135,7 +135,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
 
         {/* CpH */}
         <div className="space-y-1">
-          <label className="block text-xs font-semibold text-[#F4C2C2]">Hot Fluid Cp (kJ/kg·K)</label>
+          <label className="block text-xs font-semibold text-[#F4C2C2]">Hot Fluid Specific Heat C<sub>p,h</sub> (kJ/kg·K)</label>
           <input
             type="number"
             step={0.1}
@@ -150,7 +150,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
         {/* MDotC */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <label className="text-[#F4C2C2] font-semibold">Cold Fluid Flow (m_dot_c)</label>
+            <label className="text-[#F4C2C2] font-semibold">Cold Mass Flow Rate (ṁ<sub>c</sub>)</label>
             <span className="text-white font-mono font-bold">{inputs.MDotC} kg/s</span>
           </div>
           <input
@@ -166,7 +166,7 @@ export const SidebarControls: React.FC<SidebarControlsProps> = ({ inputs, onChan
 
         {/* CpC */}
         <div className="space-y-1">
-          <label className="block text-xs font-semibold text-[#F4C2C2]">Cold Fluid Cp (C_p_c kJ/kg·K)</label>
+          <label className="block text-xs font-semibold text-[#F4C2C2]">Cold Fluid Specific Heat C<sub>p,c</sub> (kJ/kg·K)</label>
           <input
             type="number"
             step={0.01}
